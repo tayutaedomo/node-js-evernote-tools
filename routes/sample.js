@@ -9,6 +9,7 @@ const config = require('../config');
 const PAGE_PATH = '/sample';
 const TITLE = 'Evernote Node.js Express Demo';
 
+
 // home page
 exports.index = function(req, res) {
   if (req.session.oauthAccessToken) {
