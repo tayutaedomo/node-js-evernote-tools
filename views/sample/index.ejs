@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>Evernote Node.js Express Demo</title></head>
+<body><h1>Evernote Node.js Express Demo</h1>
+<p>
+  This application uses the <a href="http://expressjs.com/">Express</a> framework to demonstrate the use of OAuth to authenticate to the Evernote web service.
+</p>
+
+<hr>
+
+<% if(session.error) { %>
+  <h2>Error</h2>
+  <p><%= session.error %></p>
+<% } %>
+
+<h2>Authentication</h2>
+<% if(session.oauthAccessToken) { %>
+  <a href="/clear">Click here</a> to start over
+<% } else { %>
+  <a href="/oauth">Click here</a> to connect Evernote
+<% } %>
+
+<hr>
+
+<h2>Current status</h2>
+<ul>
+  <li><b>NoteStore URL: <%= session.edamNoteStoreUrl %></b></li>
+  <li><b>Web API URL prefix: <%= session.edamWebApiUrlPrefix %></b></li>
+</ul>
+<h3>Token Credentials: <%= session.edamNoteStoreUrl %></h3>
+<ul>
+  <li><b>token: <%= session.oauthAccessToken %></b></li>
+  <li><b>secret: <%= session.oauthAccessTokenSecret %></b></li>
+  <li><b>User ID: <%= session.edamUserId %></b></li>
+  <li><b>Expires: <%= session.edamExpires %></b></li>
+</ul>
+
+</body>
+</html>
+
