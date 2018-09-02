@@ -6,6 +6,9 @@ const Evernote = require('evernote');
 const config = require('../config');
 
 
+const PAGE_PATH = '/sample';
+const TITLE = 'Evernote Node.js Express Demo';
+
 // home page
 exports.index = function(req, res) {
   if (req.session.oauthAccessToken) {
@@ -17,13 +20,13 @@ exports.index = function(req, res) {
     });
     client.getNoteStore().listNotebooks().then(function(notebooks) {
       req.session.notebooks = notebooks;
-      res.render('sample/index', {session: req.session});
+      res.render('sample/index', { title: TITLE, data: {} });
     }, function(error) {
       req.session.error = JSON.stringify(error);
-      res.render('sample/index', {session: req.session});
+      res.render('sample/index', { title: TITLE, data: {} });
     });
   } else {
-    res.render('sample/index', {session: req.session});
+    res.render('sample/index', { title: TITLE, data: {} });
   }
 };
 
@@ -39,7 +42,7 @@ exports.oauth = function(req, res) {
   client.getRequestToken(config.AUTH_CALLBACK_URL, function(error, oauthToken, oauthTokenSecret, results) {
     if (error) {
       req.session.error = JSON.stringify(error);
-      res.redirect('/');
+      res.redirect(PAGE_PATH);
     } else {
       // store the tokens in the session
       req.session.oauthToken = oauthToken;
@@ -70,7 +73,7 @@ exports.oauth_callback = function(req, res) {
       if (error) {
         console.log('error');
         console.log(error);
-        res.redirect('/');
+        res.redirect(PAGE_PATH);
 
       } else {
         debug('getAccessToken', oauthAccessToken, oauthAccessTokenSecret);
@@ -83,7 +86,7 @@ exports.oauth_callback = function(req, res) {
         req.session.edamExpires = results.edam_expires;
         req.session.edamNoteStoreUrl = results.edam_noteStoreUrl;
         req.session.edamWebApiUrlPrefix = results.edam_webApiUrlPrefix;
-        res.redirect('/');
+        res.redirect(PAGE_PATH);
       }
   });
 };
@@ -91,6 +94,6 @@ exports.oauth_callback = function(req, res) {
 // Clear session
 exports.clear = function(req, res) {
   req.session.destroy();
-  res.redirect('/');
+  res.redirect(PAGE_PATH);
 };
 

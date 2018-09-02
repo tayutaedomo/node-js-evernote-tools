@@ -1,18 +1,22 @@
-var createError = require('http-errors');
-var express = require('express');
-var expressSession = require('express-session');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+'use strict';
 
-var indexRouter = require('./routes/index');
-var sampleRoutes = require('./routes/sample');
+const createError = require('http-errors');
+const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
+const expressSession = require('express-session');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var app = express();
+const indexRouter = require('./routes/index');
+const sampleRoutes = require('./routes/sample');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,9 +38,9 @@ app.use(function(req, res, next) {
 });
 
 
-//app.use('/', indexRouter);
+app.use('/', indexRouter);
 
-app.get('/', sampleRoutes.index);
+app.get('/sample', sampleRoutes.index);
 app.get('/oauth', sampleRoutes.oauth);
 app.get('/oauth_callback', sampleRoutes.oauth_callback);
 app.get('/clear', sampleRoutes.clear);
