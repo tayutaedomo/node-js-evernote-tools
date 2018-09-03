@@ -8,7 +8,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/index');
 const sampleRoutes = require('./routes/sample');
 
 const app = express();
@@ -38,12 +37,13 @@ app.use(function(req, res, next) {
 });
 
 
-app.use('/', indexRouter);
-
 app.get('/sample', sampleRoutes.index);
 app.get('/oauth', sampleRoutes.oauth);
 app.get('/oauth_callback', sampleRoutes.oauth_callback);
 app.get('/clear', sampleRoutes.clear);
+
+app.use('/api', require('./routes/api'));
+app.use('/', require('./routes/index'));
 
 
 // catch 404 and forward to error handler
@@ -63,3 +63,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
